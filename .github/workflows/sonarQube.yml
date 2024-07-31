@@ -1,9 +1,10 @@
 name: SonarCloud
 on:
+  push:
+    branches:
+      - main
   pull_request:
     types: [opened, synchronize, reopened]
-    branches:
-      - develop  # Only trigger for PRs targeting the develop branch
 jobs:
   build:
     name: Build and analyze

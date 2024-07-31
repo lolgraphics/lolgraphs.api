@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lolgraphics.Core\Core.csproj" />
-    <ProjectReference Include="..\Lolgraphics.Infrastructure\Adapter.SQLServer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

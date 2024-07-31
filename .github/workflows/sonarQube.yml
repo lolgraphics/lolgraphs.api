@@ -1,10 +1,14 @@
 name: SonarCloud
+
 on:
   push:
     branches:
-      - main
+      - '*'  # Analyze pushes to any branch
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - develop  # Analyze PRs only for main and develop branches
+
 jobs:
   build:
     name: Build and analyze
@@ -39,7 +43,7 @@ jobs:
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GI_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |

@@ -48,9 +48,15 @@ jobs:
       - name: Run tests and generate coverage report
         run: dotnet test --collect:"XPlat Code Coverage"
       - name: Prepare coverage report for SonarQube
+        shell: powershell
         run: |
-          mkdir -p coverage
-          mv $(find . -name "*.xml" -print) coverage/
+          $coverageFile = Get-ChildItem -Recurse -Filter "*.xml" -ErrorAction SilentlyContinue
+          if ($coverageFile) {
+            New-Item -Path coverage -ItemType Directory -Force
+            Move-Item -Path $coverageFile.FullName -Destination coverage/
+          } else {
+            Write-Host "No coverage report found."
+          }
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

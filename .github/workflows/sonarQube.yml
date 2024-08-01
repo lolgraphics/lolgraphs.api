@@ -61,11 +61,12 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           PROJECT_KEY="lolgraphics_lolgraphs.api"
-          BRANCH_NAME="${{ github.ref }}"
-          STATUS=$(curl -s -u $SONAR_TOKEN: "https://sonarcloud.io/api/qualitygates/project_status?projectKey=${PROJECT_KEY}" | jq -r '.projectStatus.status')
-          echo "SonarCloud Quality Gate Status: $STATUS"
+          BRANCH_NAME="${GITHUB_REF##*/}"  # Extract branch name from GitHub reference
+          STATUS=$(curl -s -u $SONAR_TOKEN: "https://sonarcloud.io/api/qualitygates/project_status?projectKey=${PROJECT_KEY}&branch=${BRANCH_NAME}" | jq -r '.projectStatus.status')
+          echo "SonarCloud Quality Gate Status for branch ${BRANCH_NAME}: $STATUS"
           if [ "$STATUS" != "OK" ]; then
             echo "Quality Gate failed: $STATUS"
             exit 1
           fi
           echo "Quality Gate passed: $STATUS"
+

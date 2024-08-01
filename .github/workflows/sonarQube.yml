@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
-      - develop  # Analyze PRs only for main and develop branches
+      - develop
 
 jobs:
   build:
@@ -18,10 +18,10 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 17
-          distribution: 'zulu' # Alternative distribution options are available.
+          distribution: 'zulu'
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
@@ -43,7 +43,7 @@ jobs:
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
@@ -60,12 +60,10 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          # Get the SonarCloud project key from the build job
           PROJECT_KEY="lolgraphics_lolgraphs.api"
-          
-          # Fetch the latest analysis report from SonarCloud
+          BRANCH_NAME="${{ github.ref }}"
           STATUS=$(curl -s -u $SONAR_TOKEN: "https://sonarcloud.io/api/qualitygates/project_status?projectKey=${PROJECT_KEY}" | jq -r '.projectStatus.status')
-
+          echo "SonarCloud Quality Gate Status: $STATUS"
           if [ "$STATUS" != "OK" ]; then
             echo "Quality Gate failed: $STATUS"
             exit 1

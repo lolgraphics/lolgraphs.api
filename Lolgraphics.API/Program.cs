@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using Adapter.Mongo;
 using MongoDB.Driver;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

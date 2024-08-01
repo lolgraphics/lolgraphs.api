@@ -41,32 +41,16 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-      - name: Restore dependencies
-        run: dotnet restore
-      - name: Build
-        run: dotnet build --no-restore
-      - name: Run tests and generate coverage report
-        run: dotnet test --collect:"XPlat Code Coverage"
-      - name: Prepare coverage report for SonarQube
-        shell: powershell
-        run: |
-          $coverageFile = Get-ChildItem -Recurse -Filter "*.xml" -ErrorAction SilentlyContinue
-          if ($coverageFile) {
-            New-Item -Path coverage -ItemType Directory -Force
-            Move-Item -Path $coverageFile.FullName -Destination coverage/
-          } else {
-            Write-Host "No coverage report found."
-          }
-      - name: Build and analyze
+      - name: Build and test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"lolgraphics_lolgraphs.api" /o:"lolgraphics" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="coverage/coverage.opencover.xml"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"lolgraphics_lolgraphs.api" /o:"lolgraphics" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build
+          dotnet test --collect:"Code Coverage"  # Run tests and collect coverage
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-
 
   quality-gate:
     name: Check SonarCloud Quality Gate
@@ -78,12 +62,10 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           PROJECT_KEY="lolgraphics_lolgraphs.api"
-          BRANCH_NAME="${GITHUB_REF##*/}"  # Extract branch name from GitHub reference
-          STATUS=$(curl -s -u $SONAR_TOKEN: "https://sonarcloud.io/api/qualitygates/project_status?projectKey=${PROJECT_KEY}&branch=${BRANCH_NAME}" | jq -r '.projectStatus.status')
-          echo "SonarCloud Quality Gate Status for branch ${BRANCH_NAME}: $STATUS"
+          STATUS=$(curl -s -u $SONAR_TOKEN: "https://sonarcloud.io/api/qualitygates/project_status?projectKey=${PROJECT_KEY}" | jq -r '.projectStatus.status')
+          echo "SonarCloud Quality Gate Status: $STATUS"
           if [ "$STATUS" != "OK" ]; then
             echo "Quality Gate failed: $STATUS"
             exit 1
           fi
           echo "Quality Gate passed: $STATUS"
-

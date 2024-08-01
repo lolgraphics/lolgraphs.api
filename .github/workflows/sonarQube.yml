@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
-      - develop
+      - develop  # Analyze PRs only for main and develop branches
 
 jobs:
   build:
@@ -41,15 +41,26 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Run tests and generate coverage report
+        run: dotnet test --collect:"XPlat Code Coverage"
+      - name: Prepare coverage report for SonarQube
+        run: |
+          mkdir -p coverage
+          mv $(find . -name "*.xml" -print) coverage/
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"lolgraphics_lolgraphs.api" /o:"lolgraphics" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"lolgraphics_lolgraphs.api" /o:"lolgraphics" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="coverage/coverage.opencover.xml"
           dotnet build
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+
 
   quality-gate:
     name: Check SonarCloud Quality Gate

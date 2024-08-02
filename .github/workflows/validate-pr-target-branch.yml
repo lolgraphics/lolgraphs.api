@@ -26,5 +26,6 @@ jobs:
             echo "PR to main is only allowed from develop."
             exit 1
           fi
-
+          echo "$SOURCE_BRANCH"
+          echo "$TARGET_BRANCH"
           echo "PR is valid."

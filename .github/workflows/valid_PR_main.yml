@@ -1,0 +1,27 @@
+name: Validate PR Target Branch
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  validate-target-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check target branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TARGET_BRANCH=$(jq -r .base.ref < $GITHUB_EVENT_PATH)
+          if [ "$TARGET_BRANCH" != "main" ]; then
+            echo "Pull request target branch is not 'main'."
+            exit 1
+          fi
+
+          SOURCE_BRANCH=$(jq -r .head.ref < $GITHUB_EVENT_PATH)
+          if [ "$SOURCE_BRANCH" != "develop" ]; then
+            echo "Pull request source branch is not 'develop'."
+            exit 1
+          fi
+
+          echo "Pull request is valid."

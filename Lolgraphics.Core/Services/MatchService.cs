@@ -13,8 +13,6 @@ namespace Core.Services
         }
 
 
-
-
         public void AddMatches (List<Match> matches)
         {
             matchesRepository.AddMatchesAsync (matches);

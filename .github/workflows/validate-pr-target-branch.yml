@@ -1,0 +1,30 @@
+name: Validate PR Target Branch
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  validate-target-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check target branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TARGET_BRANCH=$(jq -r .base.ref < $GITHUB_EVENT_PATH)
+          SOURCE_BRANCH=$(jq -r .head.ref < $GITHUB_EVENT_PATH)
+
+          # Allow PRs to develop from any branch
+          if [ "$TARGET_BRANCH" == "develop" ]; then
+            echo "PR to develop is allowed."
+            exit 0
+          fi
+
+          # Restrict PRs to main from only the develop branch
+          if [ "$TARGET_BRANCH" == "main" ] && [ "$SOURCE_BRANCH" != "develop" ]; then
+            echo "PR to main is only allowed from develop."
+            exit 1
+          fi
+
+          echo "PR is valid."

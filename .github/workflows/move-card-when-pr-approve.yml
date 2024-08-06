@@ -6,18 +6,37 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read  # Permissão para ler pull requests
+
 jobs:
-  move-card:
+  check-prs:
     runs-on: ubuntu-latest
     steps:
-      - name: Extract issue details
-        id: extract
+      - name: Check PRs in Backend Repository
+        id: check_backend_prs
         run: |
-          echo "Extracting issue details"
-          echo "Issue Key: ${{ github.event.client_payload.issue_key }}"
-          echo "Transition ID: ${{ github.event.client_payload.transition_id }}"
+          echo "Checking open PRs in backend repository..."
+          BACKEND_REPO="backend-repo"  # Substitua pelo nome do repositório de backend
+          BRANCH_NAME="${{ github.event.client_payload.issue_key }}"
+          
+          # Encontrar PRs que mencionam a branch no corpo e estão abertos
+          PR_RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/your-org/$BACKEND_REPO/pulls?state=open")
+
+          # Verificar se a branch está mencionada em algum PR
+          OPEN_PR=$(echo "$PR_RESPONSE" | jq --arg BRANCH_NAME "$BRANCH_NAME" \
+            '.[] | select(.body | contains($BRANCH_NAME)) | .number')
+
+          if [ -z "$OPEN_PR" ]; then
+            echo "No open PRs found with branch name $BRANCH_NAME in backend repository."
+            echo "backend_pr_open=0" >> $GITHUB_ENV
+          else
+            echo "Open PRs found with branch name $BRANCH_NAME in backend repository."
+            echo "backend_pr_open=1" >> $GITHUB_ENV
+          fi
 
       - name: Move Jira Card
+        if: ${{ env.frontend_pr_open == '0' && env.backend_pr_open == '0' }}
         env:
           JIRA_URL: ${{ secrets.JIRA_URL }}
           JIRA_USERNAME: ${{ secrets.JIRA_USERNAME }}

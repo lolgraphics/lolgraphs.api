@@ -1,5 +1,5 @@
 ﻿using Core.Application.Interfaces;
-using Microsoft.Extensions.Caching.Distributed;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,28 +9,21 @@ using System.Threading.Tasks;
 namespace Redis.Services
 
 {
-    public class RedisService : ICache
+    public class RedisService(IConnectionMultiplexer redis) : IRedisService
     {
-        private readonly IDistributedCache _cache;
-
-        public RedisService(IDistributedCache cache)
-        {
-            _cache = cache;
-        }
+        private readonly IConnectionMultiplexer _redis = redis;
 
         public async Task SetCacheValueAsync(string key, string value)
         {
-            var options = new DistributedCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30) // Cache for 30 minutes
-            };
-
-            await _cache.SetStringAsync(key, value, options);
+            var db = _redis.GetDatabase();
+            await db.StringSetAsync(key, value);
         }
 
-        public async Task<string> GetCacheValueAsync(string key)
+        public async Task<string?> GetCacheValueAsync(string key)
         {
-            return await _cache.GetStringAsync(key);
+            var db = _redis.GetDatabase();
+            var value = await db.StringGetAsync(key);
+            return value;
         }
     }
 }

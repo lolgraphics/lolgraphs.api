@@ -1,35 +1,29 @@
 ﻿using Confluent.Kafka;
 using Core.Application.Interfaces;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Adapter.Kafka.Producer.Producer
+namespace Kafka.Producer
 {
-    public class KafkaProducer : IProducer
+    public class KafkaProducer(IProducer<Null, string> producer, ILogger<KafkaProducer> logger) : IKafkaProducer
     {
-        private readonly IProducer<Null, string> _producer;
-        private readonly ILogger<KafkaProducer> _logger;
+        private readonly IProducer<Null, string> _producer = producer;
+        private readonly ILogger<KafkaProducer> _logger = logger;
+        private const string TopicName = "match-job-topic";
 
-        public KafkaProducer(IProducer<Null, string> producer, ILogger<KafkaProducer> logger)
+        public async Task EnqueueMessageAsync(string puuid)
         {
-            _producer = producer;
-            _logger = logger;
-        }
-
-        public async Task ProduceAsync(string message)
-        {
+            var message = new Message<Null, string> { Value = puuid };
             try
             {
-                var deliveryResult = await _producer.ProduceAsync("test-topic", new Message<Null, string> { Value = message });
-                _logger.LogInformation($"Delivered message to {deliveryResult.TopicPartitionOffset}");
+                // Produce the message asynchronously
+                var deliveryResult = await _producer.ProduceAsync(TopicName, message);
+                // Use structured logging
+                _logger.LogInformation("Message '{Puuid}' delivered to '{TopicPartitionOffset}'.", message.Value, deliveryResult.TopicPartitionOffset);
             }
             catch (ProduceException<Null, string> e)
             {
-                _logger.LogError($"Delivery failed: {e.Error.Reason}");
+                // Log any errors encountered during production
+                _logger.LogError(e, "Error producing message to Kafka: {Reason}", e.Error.Reason);
             }
         }
     }

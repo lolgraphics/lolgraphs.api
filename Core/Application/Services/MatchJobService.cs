@@ -30,7 +30,8 @@ namespace Core.Application.Services
 
         private static long GetStartTime(MatchDto lastMatchPlayed)
         {
-            return lastMatchPlayed != null ? lastMatchPlayed.TimeLastMatchPlayed + 60 : (long)StartTime.DefaultStartTime;
+            return lastMatchPlayed != null ? lastMatchPlayed.TimeLastMatchPlayed + (long)MatchTime.TimeDifferenceToNextMatch 
+                                            : (long)MatchTime.DefaultStartTime;
         }
 
         private static long GetCurrentUnixTimeSeconds() => new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds();
@@ -39,10 +40,10 @@ namespace Core.Application.Services
         {
             DateTime lastMatchDate = DateTimeOffset.FromUnixTimeSeconds(startTime).DateTime;
             TimeSpan timeDifference = DateTime.UtcNow - lastMatchDate;
-            return timeDifference.TotalDays >= 7;
+            return timeDifference.TotalDays >= (long)MatchTime.TotalDays;
         }
 
-        private async Task ProcessMatchesInIntervalsAsync(string puuid, long startTime, long endTime)
+        public async Task ProcessMatchesInIntervalsAsync(string puuid, long startTime, long endTime)
         {
             while (startTime < endTime)
             {

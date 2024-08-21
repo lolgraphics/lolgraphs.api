@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Core.Common.Enum
 {
-    public enum StartTime
+    public enum MatchTime
     {
-        DefaultStartTime = 1623076883
+        DefaultStartTime = 1623076883,
+        TotalDays = 7,
+        TimeDifferenceToNextMatch = 60
     }
 }

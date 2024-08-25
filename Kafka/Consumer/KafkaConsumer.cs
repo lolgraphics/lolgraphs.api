@@ -29,7 +29,7 @@ namespace KafkaAdapter
                         {
                             var matchJobService = scope.ServiceProvider.GetRequiredService<IMatchJobService>();
                             await matchJobService.ProcessMatchesAsync(result.Message.Value);
-                            _logger.LogInformation($"Processed message: {result.Message.Value}");
+                            _logger.LogInformation("Processed message: {Message}", result.Message.Value);
                         }
                     }
                 }
@@ -45,6 +45,7 @@ namespace KafkaAdapter
                 }
             }
         }
+
 
         public override void Dispose()
         {

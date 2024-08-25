@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kafka", "Kafka\Kafka.csproj", "{B66FC96E-62B9-42DF-A11C-BA639E7141BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bff.Tests", "Bff.Tests\Bff.Tests.csproj", "{71A8EE5A-6A7F-49A1-9AEF-C2515E552FE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bff.Tests", "Bff.Tests\Bff.Tests.csproj", "{71A8EE5A-6A7F-49A1-9AEF-C2515E552FE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Redis.Tests", "Redis.Tests\Redis.Tests.csproj", "{F4D8F641-D058-4791-85CB-ABB95F22D01D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{71A8EE5A-6A7F-49A1-9AEF-C2515E552FE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71A8EE5A-6A7F-49A1-9AEF-C2515E552FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71A8EE5A-6A7F-49A1-9AEF-C2515E552FE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4D8F641-D058-4791-85CB-ABB95F22D01D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4D8F641-D058-4791-85CB-ABB95F22D01D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4D8F641-D058-4791-85CB-ABB95F22D01D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4D8F641-D058-4791-85CB-ABB95F22D01D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +83,7 @@ Global
 		{61764C3A-F2D2-477F-B678-777A807323AC} = {B25163A5-743E-4930-AB72-6B965A6C0E1A}
 		{B66FC96E-62B9-42DF-A11C-BA639E7141BA} = {76113AFC-F8AC-4C90-932C-14FE02094EA3}
 		{71A8EE5A-6A7F-49A1-9AEF-C2515E552FE3} = {573AF196-E3B3-4FB7-A637-4982E247C20F}
+		{F4D8F641-D058-4791-85CB-ABB95F22D01D} = {573AF196-E3B3-4FB7-A637-4982E247C20F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {530CF29A-AA65-4303-93AD-210FAC9E2471}

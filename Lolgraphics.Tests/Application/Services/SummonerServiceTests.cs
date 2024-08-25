@@ -77,7 +77,7 @@ namespace Core.Tests.Application.Services
             // Arrange
             var puuid = _fixture.Create<string>();
             _mockCache.Setup(c => c.GetCacheValueAsync($"summoner:{puuid}"))
-                .ReturnsAsync((string)null);
+                .ReturnsAsync(null as string);
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<ApiException>(() => _summonerService.GetSummonerCachedAsync(puuid));

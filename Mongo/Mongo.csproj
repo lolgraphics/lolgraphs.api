@@ -8,11 +8,19 @@
 
   <ItemGroup>
     <PackageReference Include="DbUp.Extensions.Microsoft.Logging" Version="1.1.0" />
+    <PackageReference Include="DotNetEnv" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.28.0" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="Serilog" Version="4.0.1" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Repositories\" />
+    <ProjectReference Include="..\Core\Core.csproj" />
+
   </ItemGroup>
 
 </Project>

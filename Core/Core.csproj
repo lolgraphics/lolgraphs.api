@@ -7,18 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Application\DTOs\" />
-    <Folder Include="Application\Services\" />
-    <Folder Include="Common\Exceptions\" />
     <Folder Include="Common\Utilities\" />
-    <Folder Include="Domain\Entities\" />
     <Folder Include="Domain\Aggregates\" />
+    <Folder Include="Domain\Entities\" />
     <Folder Include="Domain\Repositories\" />
     <Folder Include="Domain\ValueObjects\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Confluent.Kafka" Version="2.5.2" />
+    <PackageReference Include="MongoDB.Bson" Version="2.28.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Polly" Version="8.4.1" />
+    <PackageReference Include="Serilog" Version="4.0.1" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
   </ItemGroup>
 
 </Project>

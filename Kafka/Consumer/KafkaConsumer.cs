@@ -1,68 +1,56 @@
 ﻿using Confluent.Kafka;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Core.Application.Interfaces;
 
-
-namespace Adapter.Kafka.Consumer.Consumer
+namespace KafkaAdapter
 {
-    public class KafkaConsumer : IHostedService, IDisposable
+    public class KafkaConsumer(IServiceProvider serviceProvider, IConsumer<Null, string> consumer, ILogger<KafkaConsumer> logger) : BackgroundService
     {
-        private readonly ILogger<KafkaConsumer> _logger;
-        private readonly IConsumer<Ignore, string> _consumer;
-        private CancellationTokenSource _cancellationTokenSource;
-        private Task _executingTask;
+        private readonly IServiceProvider _serviceProvider = serviceProvider;
+        private readonly IConsumer<Null, string> _consumer = consumer;
+        private readonly ILogger<KafkaConsumer> _logger = logger;
+        private const string TopicName = "match-job-topic";
 
-        public KafkaConsumer(ILogger<KafkaConsumer> logger, IConsumer<Ignore, string> consumer)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger = logger;
-            _consumer = consumer;
-        }
+            _consumer.Subscribe(TopicName);
 
-        public Task StartAsync(CancellationToken cancellationToken)
-        {
-            _cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-            _executingTask = Task.Run(() => ExecuteAsync(_cancellationTokenSource.Token), cancellationToken);
-            return _executingTask.IsCompleted ? _executingTask : Task.CompletedTask;
-        }
-
-        private async Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            _consumer.Subscribe("test-topic");
-
-            try
+            while (!stoppingToken.IsCancellationRequested)
             {
-                while (!stoppingToken.IsCancellationRequested)
+                try
                 {
-                    var consumeResult = _consumer.Consume(stoppingToken);
-                    if (consumeResult != null)
+                    var result = _consumer.Consume(stoppingToken);
+
+                    if (result != null)
                     {
-                        _logger.LogInformation($"Consumed message '{consumeResult.Message.Value}' at: '{consumeResult.Offset}'");
+                        using (var scope = _serviceProvider.CreateScope())
+                        {
+                            var matchJobService = scope.ServiceProvider.GetRequiredService<IMatchJobService>();
+                            await matchJobService.ProcessMatchesAsync(result.Message.Value);
+                            _logger.LogInformation("Processed message: {Message}", result.Message.Value);
+                        }
                     }
                 }
-            }
-            catch (OperationCanceledException)
-            {
-                _logger.LogInformation("Operation canceled.");
-            }
-            finally
-            {
-                _consumer.Close();
+                catch (ConsumeException e)
+                {
+                    // Log consume exception
+                    _logger.LogError(e, "Error consuming message: {Reason}", e.Error.Reason);
+                }
+                catch (Exception ex)
+                {
+                    // Log unexpected exceptions
+                    _logger.LogError(ex, "Unexpected error occurred while consuming messages.");
+                }
             }
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            _cancellationTokenSource.Cancel();
-            return Task.WhenAny(_executingTask, Task.Delay(Timeout.Infinite, cancellationToken));
-        }
 
-        public void Dispose()
+        public override void Dispose()
         {
-            _cancellationTokenSource?.Dispose();
-            _consumer?.Dispose();
+            _consumer.Close();
+            base.Dispose();
         }
     }
 }

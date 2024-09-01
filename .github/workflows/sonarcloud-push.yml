@@ -3,7 +3,7 @@ name: SonarCloud Push
 on:
   push:
     branches:
-      - '*'  # Analyze pushes to any branch
+      - '*'
 
 jobs:
   build:

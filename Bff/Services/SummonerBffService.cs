@@ -29,7 +29,7 @@ namespace Bff.Services
 
         public async Task<SummonerDto> GetSummonerByPuuid(string puuid)
         {
-            var response = await _riotApiBr1.GetAsync($"riot/account/v1/accounts/by-riot-id/{puuid}/BR1");
+            var response = await _riotApiBr1.GetAsync($"summoner/v4/summoners/by-puuid/{puuid}");
 
             return await HttpHelper.HandleHttpResponseAsync(
                 response,

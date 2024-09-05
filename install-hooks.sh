@@ -14,23 +14,27 @@ echo "Criando o hook de commit-msg..."
 cat << 'EOF' > "$HOOK_DIR/commit-msg"
 #!/bin/sh
 
+
 # Get the branch name
 branch_name=$(git symbolic-ref --short HEAD)
 
-# Check if the branch name starts with "feature/FEA-", "BUG-",
-# or "BUG/BUG-" followed by a number
-if [[ ! "$branch_name" =~ ^(feature/FEA-[0-9]+|BUG-[0-9]+|BUG/BUG-[0-9]+)$ ]]; then
-  echo "Error: Branch name must follow the format 'feature/FEA-<number_of_task>', 'BUG-<number_of_task>', or 'BUG/BUG-<number_of_task>'."
+# Check if the branch name starts with "feature/FEA-" or "bugs/BUG-" followed by a number
+if [[ ! "$branch_name" =~ ^(feature/FEA-[0-9]+|bugs/BUG-[0-9]+)$ ]]; then
+  if [[ "$branch_name" =~ ^bugs/BUG-[0-9]+$ ]]; then
+    echo "Error: Branch name must follow the format 'bugs/BUG-<number_of_task>'."
+  elif [[ "$branch_name" =~ ^feature/FEA-[0-9]+$ ]]; then
+    echo "Error: Branch name must follow the format 'feature/FEA-<number_of_task>'."
+  else
+    echo "Error: Branch name must follow the format 'feature/FEA-<number_of_task>' or 'bugs/BUG-<number_of_task>'."
+  fi
   exit 1
 fi
 
 # Determine the prefix based on the branch name
 if [[ "$branch_name" =~ ^feature/FEA-[0-9]+$ ]]; then
   prefix=$(echo "$branch_name" | sed -n 's/^feature\/\(FEA-[0-9]\+\)$/\1/p')
-elif [[ "$branch_name" =~ ^BUG-[0-9]+$ ]]; then
-  prefix=$(echo "$branch_name" | sed -n 's/^BUG-\([0-9]\+\)$/BUG-\1/p')
-elif [[ "$branch_name" =~ ^BUG/BUG-[0-9]+$ ]]; then
-  prefix=$(echo "$branch_name" | sed -n 's/^BUG\/\(BUG-[0-9]\+\)$/\1/p')
+elif [[ "$branch_name" =~ ^bugs/BUG-[0-9]+$ ]]; then
+  prefix=$(echo "$branch_name" | sed -n 's/^bugs\/\(BUG-[0-9]\+\)$/\1/p')
 fi
 
 # Read the commit message
@@ -47,6 +51,7 @@ if test "" != "$(grep '^Signed-off-by: ' "$1" | sort | uniq -c | sed -e '/^[ 	]*
   echo >&2 "Duplicate Signed-off-by lines."
   exit 1
 fi
+
 EOF
 
 # Torna o hook executável

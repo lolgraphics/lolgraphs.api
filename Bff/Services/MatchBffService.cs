@@ -2,9 +2,8 @@
 using Newtonsoft.Json;
 using Core.Common.Exceptions;
 using Core.Application.Interfaces.Bff;
-using Core.Application.DTOs.MatchDtos;
-using Core.Application.DTOs;
-using Core.Application.DTOs.MatchDtos.InfoMatch;
+using Core.Application.DTOs.MatchDTOs.InfoMatch;
+using Core.Application.DTOs.MatchDtos.infoMatchTimeLineDTO;
 
 
 namespace Bff.Services
@@ -29,7 +28,22 @@ namespace Bff.Services
             );
         }
 
-        public async Task<InfoMatchDto> GetMatchInfoByMatchIdAsync(string matchId)
+        public async Task<InfoMatchTimeLineDTO> GetMatchTimeLineByMatchIdAsync(string matchId)
+        {
+            var response = await _americasApi.GetAsync($"lol/match/v5/matches/{matchId}/timeline");
+
+            return await HttpHelper.HandleHttpResponseAsync(
+                response,
+                async () =>
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<InfoMatchTimeLineDTO>(content)
+                                ?? throw new MatchDataException("Failed to deserialize match info.", content);
+                    return result;
+                }
+            );
+        }
+        public async Task<InfoMatchDTO> GetMatchInfoByMatchIdAsync(string matchId)
         {
             var response = await _americasApi.GetAsync($"lol/match/v5/matches/{matchId}");
 
@@ -38,7 +52,7 @@ namespace Bff.Services
                 async () =>
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    var result = JsonConvert.DeserializeObject<InfoMatchDto>(content) 
+                    var result = JsonConvert.DeserializeObject<InfoMatchDTO>(content) 
                                 ?? throw new MatchDataException("Failed to deserialize match info.", content);
                     return result;
                 }

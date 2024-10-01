@@ -1,13 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Core.Application.DTOs.MatchDtos.InfoMatch
+namespace Core.Application.DTOs.MatchDTOs.InfoMatch
 {
-    public class BaronDto
+    public class BaronDTO
     {
         [JsonProperty("first")]
         public bool First { get; set; }

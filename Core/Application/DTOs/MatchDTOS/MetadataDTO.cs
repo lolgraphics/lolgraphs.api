@@ -1,13 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Core.Application.DTOs.MatchDtos.InfoMatch
+namespace Core.Application.DTOs.MatchDTOs.InfoMatch
 {
-    public class MetadataDto
+    public class MetadataDTO
     {
         [JsonProperty("dataVersion")]
         public required long DataVersion { get; set; }

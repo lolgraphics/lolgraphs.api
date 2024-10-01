@@ -1,0 +1,3 @@
+RIOT_API_TOKEN=RGAPI-d3b6684f-4fdd-413b-87ed-cf97d4fe1d06
+MONGODB_CONNECTIONSTRING=mongodb+srv://lolGraphics:xv343He7d9GFHBVb@lolgraphicsdev.ilwnyb4.mongodb.net/?retryWrites=true&w=majority&appName=lolGraphicsDev
+MONGODB_DATABASE=graphics

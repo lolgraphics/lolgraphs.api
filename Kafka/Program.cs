@@ -34,7 +34,8 @@ var builder = Host.CreateDefaultBuilder()
         var configConsumer = new ConsumerConfig
         {
             BootstrapServers = "localhost:29092",
-            GroupId = "match-consumer-group"
+            GroupId = "match-consumer-group",
+            MaxPollIntervalMs = 600000
         };
 
         var consumer = new ConsumerBuilder<Null, string>(configConsumer).Build();

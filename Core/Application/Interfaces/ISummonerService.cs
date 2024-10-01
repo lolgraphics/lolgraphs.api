@@ -6,9 +6,9 @@ namespace Core.Application.Interfaces
     public interface ISummonerService
     {
        
-        Task<SummonerDto> UpdateSummonerAsync(string puuid);
+        Task<SummonerDTO> UpdateSummonerAsync(string puuid);
 
        
-        Task<SummonerDto> GetSummonerCachedAsync(string puuid);
+        Task<SummonerDTO> GetSummonerCachedAsync(string puuid);
     }
 }

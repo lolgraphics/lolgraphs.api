@@ -1,19 +1,13 @@
-﻿using Confluent.Kafka;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
-namespace Core.Application.DTOs.MatchDtos.InfoMatch
+namespace Core.Application.DTOs.MatchDTOs.InfoMatch
 {
-    public class InfoMatchDto
+    public class InfoMatchDTO
     {
         [JsonProperty("metadata")]
-        public required MetadataDto Metadata { get; set; }
+        public required MetadataDTO Metadata { get; set; }
 
         [JsonProperty("info")]
-        public required InfoDto Info { get; set; }
+        public required InfoDTO Info { get; set; }
     }
 }

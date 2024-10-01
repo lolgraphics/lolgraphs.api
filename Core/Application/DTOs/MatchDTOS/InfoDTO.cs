@@ -1,13 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core.Application.DTOs.MatchDTOS;
+using Newtonsoft.Json;
 
-namespace Core.Application.DTOs.MatchDtos.InfoMatch
+namespace Core.Application.DTOs.MatchDTOs.InfoMatch
 {
-    public class InfoDto
+    public class InfoDTO
     {
         [JsonProperty("endOfGameResult")]
         public required string EndOfGameResult { get; set; }
@@ -43,7 +39,7 @@ namespace Core.Application.DTOs.MatchDtos.InfoMatch
         public required long MapId { get; set; }
 
         [JsonProperty("participants")]
-        public required List<ParticipantDto> Participants { get; set; }
+        public required List<ParticipantDTO> Participants { get; set; }
 
         [JsonProperty("platformId")]
         public required string PlatformId { get; set; }
@@ -52,7 +48,7 @@ namespace Core.Application.DTOs.MatchDtos.InfoMatch
         public required long QueueId { get; set; }
 
         [JsonProperty("teams")]
-        public required List<TeamDto> Teams { get; set; }
+        public required List<TeamDTO> Teams { get; set; }
 
         [JsonProperty("tournamentCode")]
         public required string TournamentCode { get; set; }

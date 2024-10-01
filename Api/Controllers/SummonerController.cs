@@ -1,6 +1,6 @@
 ﻿using Bff.Services;
 using Core.Application.DTOs;
-using Core.Application.DTOs.ApiDtos;
+using Core.Application.DTOs.ApiDTOs;
 using Core.Application.Interfaces;
 using Core.Application.Interfaces.Bff;
 using Core.Application.Services;

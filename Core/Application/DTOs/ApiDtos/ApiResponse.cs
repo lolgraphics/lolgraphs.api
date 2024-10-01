@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Application.DTOs.ApiDtos
+namespace Core.Application.DTOs.ApiDTOs
 {
     public class ApiResponse(int code, string message, object data)
     {

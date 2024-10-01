@@ -18,7 +18,7 @@ namespace Kafka.Producer
                 // Produce the message asynchronously
                 var deliveryResult = await _producer.ProduceAsync(TopicName, message);
                 // Use structured logging
-                _logger.LogInformation("Message '{Puuid}' delivered to '{TopicPartitionOffset}'.", message.Value, deliveryResult.TopicPartitionOffset);
+                _logger.LogInformation($"Message '{puuid}' Date: '{DateTime.Now.ToString()}'", message.Value, deliveryResult.TopicPartitionOffset);
             }
             catch (ProduceException<Null, string> e)
             {

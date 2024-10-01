@@ -1,13 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Core.Application.DTOs.MatchDtos.InfoMatchDto
+namespace Core.Application.DTOs.MatchDTOs.InfoMatchDTO
 {
-    public class ChampionBanedDto
+    public class ChampionBanedDTO
     {
         [JsonProperty("championId")]
         public bool ChampionId { get; set; }

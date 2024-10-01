@@ -1,9 +1,10 @@
-﻿using Core.Application.DTOs.MatchDtos;
+﻿using Core.Application.DTOs.MatchDTOs;
 using Core.Application.Interfaces.Bff;
 using Core.Application.Interfaces.Repositories;
 using Core.Application.Interfaces;
-using Core.Application.DTOs.MatchDtos.InfoMatch;
+using Core.Application.DTOs.MatchDTOs.InfoMatch;
 using Core.Common.Enum;
+using Core.Application.DTOs.MatchDtos.infoMatchTimeLineDTO;
 
 namespace Core.Application.Services
 {
@@ -28,9 +29,9 @@ namespace Core.Application.Services
             }
         }
 
-        private static long GetStartTime(MatchDto lastMatchPlayed)
+        private static long GetStartTime(MatchDTO lastMatchPlayed)
         {
-            return lastMatchPlayed != null ? lastMatchPlayed.TimeLastMatchPlayed + (long)MatchTime.TimeDifferenceToNextMatch 
+            return lastMatchPlayed != null ? lastMatchPlayed.TimeLastMatchPlayed + (long)MatchTime.TimeDifferenceToNextMatch
                                             : (long)MatchTime.DefaultStartTime;
         }
 
@@ -58,29 +59,62 @@ namespace Core.Application.Services
 
         private async Task ProcessMatchesAsync(string puuid, long startTime, long endTime)
         {
-            List<string> matchIds = await _matchBffService.GetMatchByPuuidAsync(puuid, startTime, endTime);
-            await GetMatchInfos(matchIds, puuid);
+
+            var matches = await _matchRepository.GetAll(puuid);
+            var matchIds = matches.Select(m => m.Id).ToList();
+
+                //_matchBffService.GetMatchByPuuidAsync(puuid, startTime, endTime);
+
+            await GetMatchAndTimeLineInfos(matchIds, puuid);
+
         }
 
-        private async Task GetMatchInfos(List<string> matchIds, string puuid)
+        private async Task GetMatchAndTimeLineInfos(List<string> matchIds, string puuid)
         {
-            foreach (var matchId in matchIds.AsEnumerable().Reverse())
+            var reversedIds = matchIds.AsEnumerable().Reverse();
+
+            foreach (var matchId in reversedIds)
             {
                 var infoMatch = await _matchBffService.GetMatchInfoByMatchIdAsync(matchId);
-                await SaveMatchInfoAsync(infoMatch, puuid);
                 await Task.Delay(1200); // Consider removing or adjusting delay as needed
-            }
-        }
+                var infoMatchTimeLine = await _matchBffService.GetMatchTimeLineByMatchIdAsync(matchId);
 
-        private async Task SaveMatchInfoAsync(InfoMatchDto infoMatch, string puuid)
+                await SaveMatchDataAsync(infoMatch, infoMatchTimeLine, puuid);
+            }
+
+            //var semaphore = new SemaphoreSlim(25);
+            //var tasks = new List<Task>();
+
+            //foreach (var matchId in matchIds.AsEnumerable().Reverse())
+            //{
+            //    await semaphore.WaitAsync();
+
+            //    tasks.Add(Task.Run(async () =>
+            //    {
+            //        try
+            //        {
+            //            var infoMatch = await _matchBffService.GetMatchInfoByMatchIdAsync(matchId);
+            //            await SaveMatchInfoAsync(infoMatch, puuid);
+            //            await Task.Delay(1200);
+            //        }
+            //        finally
+            //        {
+            //            semaphore.Release();
+            //        }
+            //    }));
+            //}
+
+            //await Task.WhenAll(tasks);
+        }
+        private async Task SaveMatchDataAsync(InfoMatchDTO infoMatch, InfoMatchTimeLineDTO infoMatchTimeLine, string puuid)
         {
             long timestampInSeconds = infoMatch.Info.GameEndTimestamp / 1000;
             string formattedDate = FormatDateTimeByPlatformId(infoMatch.Info.PlatformId, timestampInSeconds);
 
-            await _matchRepository.SaveMatchAsync(new MatchDto(infoMatch.Metadata.MatchId, puuid, timestampInSeconds, formattedDate));
+            // await _matchRepository.SaveMatchIdAsync(new MatchDTO(infoMatch.Metadata.MatchId, puuid, timestampInSeconds, formattedDate));
             await _matchRepository.SaveInfoMatchAsync(infoMatch);
+            await _matchRepository.SaveMatchTimeLineInfoMatchAsync(infoMatchTimeLine);
         }
-
         private static string FormatDateTimeByPlatformId(string platformId, long timestampInSeconds)
         {
             DateTimeOffset utcDateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(timestampInSeconds);

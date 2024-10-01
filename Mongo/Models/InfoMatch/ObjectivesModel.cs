@@ -1,11 +1,5 @@
-﻿using Core.Application.DTOs.MatchDtos.InfoMatch;
+﻿using Core.Application.DTOs.MatchDTOs.InfoMatch;
 using MongoDB.Bson.Serialization.Attributes;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mongo.Models.InfoMatch
 {
@@ -27,7 +21,7 @@ namespace Mongo.Models.InfoMatch
         public required InhibitorModel Inhibitor { get; set; }
 
         [BsonElement("riftHerald")]
-        public required RiftHeraldDto RiftHerald { get; set; }
+        public required RiftHeraldDTO RiftHerald { get; set; }
 
         [BsonElement("tower")]
         public required TowerModel Tower { get; set; }

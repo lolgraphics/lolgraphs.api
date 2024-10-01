@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Mongo.Models;
 using Mongo.Models.InfoMatch;
+using Mongo.Models.InfoMatchTimeLine;
 using MongoDB.Driver;
 
 
@@ -19,5 +20,8 @@ namespace Mongo.Configuration
         
         public IMongoCollection<InfoMatchModel> InfoMatches => 
            _database.GetCollection<InfoMatchModel>("InfoMatches");
+
+        public IMongoCollection<InfoMatchTimeLineModel> InfoMatchesTimeLines =>
+            _database.GetCollection<InfoMatchTimeLineModel>("InfoMatchesTimeLines");
     }
 }

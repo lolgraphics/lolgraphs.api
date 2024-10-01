@@ -1,16 +1,9 @@
 ﻿using AutoMapper;
 using Core.Application.DTOs;
 using Core.Application.Interfaces.Repositories;
-using Infrastructure.Configuration;
 using Mongo.Configuration;
 using Mongo.Models;
-using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mongo.Repositories
 {
@@ -18,13 +11,13 @@ namespace Mongo.Repositories
     {
         private readonly IMongoCollection<SummonerModel> _summoner = context.Summoners;
 
-        public async Task<SummonerDto> GetSummonerAsync(string puuid)
+        public async Task<SummonerDTO> GetSummonerAsync(string puuid)
         {
             var summonerModel = await _summoner.Find(s => s.Puuid == puuid).FirstOrDefaultAsync();
-            return mapper.Map<SummonerDto>(summonerModel);
+            return mapper.Map<SummonerDTO>(summonerModel);
         }
 
-        public async Task SaveSummonerAsync(SummonerDto summoner)
+        public async Task SaveSummonerAsync(SummonerDTO summoner)
         {
 
             var summonerModel = mapper.Map<SummonerModel>(summoner);

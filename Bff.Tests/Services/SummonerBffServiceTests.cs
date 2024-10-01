@@ -53,11 +53,11 @@ namespace Bff.Tests.Services
         }
 
         [Fact]
-        public async Task GetAccountDataAsync_ReturnsAccountDto_WhenResponseIsValid()
+        public async Task GetAccountDataAsync_ReturnsAccountDTO_WhenResponseIsValid()
         {
             // Arrange
-            var accountDto = _fixture.Create<AccountDto>();
-            var jsonResponse = JsonConvert.SerializeObject(accountDto);
+            var accountDTO = _fixture.Create<AccountDTO>();
+            var jsonResponse = JsonConvert.SerializeObject(accountDTO);
             var mockHandler = SetupMockHttpClient(jsonResponse);
             var httpClient = new HttpClient(mockHandler.Object) { BaseAddress = new System.Uri("http://localhost") };
 
@@ -71,7 +71,7 @@ namespace Bff.Tests.Services
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(accountDto.Puuid, result.Puuid);
+            Assert.Equal(accountDTO.Puuid, result.Puuid);
         }
 
         [Fact]
@@ -95,11 +95,11 @@ namespace Bff.Tests.Services
         }
 
         [Fact]
-        public async Task GetSummonerByPuuid_ReturnsSummonerDto_WhenResponseIsValid()
+        public async Task GetSummonerByPuuid_ReturnsSummonerDTO_WhenResponseIsValid()
         {
             // Arrange
-            var summonerDto = _fixture.Create<SummonerDto>();
-            var jsonResponse = JsonConvert.SerializeObject(summonerDto);
+            var summonerDTO = _fixture.Create<SummonerDTO>();
+            var jsonResponse = JsonConvert.SerializeObject(summonerDTO);
             var mockHandler = SetupMockHttpClient(jsonResponse);
             var httpClient = new HttpClient(mockHandler.Object) { BaseAddress = new System.Uri("http://localhost") };
 
@@ -113,7 +113,7 @@ namespace Bff.Tests.Services
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(summonerDto.Puuid, result.Puuid);
+            Assert.Equal(summonerDTO.Puuid, result.Puuid);
         }
 
         [Fact]

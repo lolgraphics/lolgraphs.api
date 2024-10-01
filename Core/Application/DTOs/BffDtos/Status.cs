@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Application.DTOs.BffDtos
+namespace Core.Application.DTOs.BffDTOs
 {
     public class Status
     {

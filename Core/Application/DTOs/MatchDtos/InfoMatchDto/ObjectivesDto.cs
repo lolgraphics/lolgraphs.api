@@ -1,34 +1,28 @@
-﻿using Confluent.Kafka;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
-namespace Core.Application.DTOs.MatchDtos.InfoMatch
+namespace Core.Application.DTOs.MatchDTOs.InfoMatch
 {
-    public class ObjectivesDto
+    public class ObjectivesDTO
     {
         [JsonProperty("baron")]
-        public required BaronDto Baron { get; set; }
+        public required BaronDTO Baron { get; set; }
 
         [JsonProperty("champion")]
-        public required ChampionDto Champion { get; set; }
+        public required ChampionDTO Champion { get; set; }
 
         [JsonProperty("dragon")]
-        public required DragonDto Dragon { get; set; }
+        public required DragonDTO Dragon { get; set; }
 
         [JsonProperty("horde")]
-        public required HordeDto Horde { get; set; }
+        public required HordeDTO Horde { get; set; }
 
         [JsonProperty("inhibitor")]
-        public required InhibitorDto Inhibitor { get; set; }
+        public required InhibitorDTO Inhibitor { get; set; }
 
         [JsonProperty("riftHerald")]
-        public required RiftHeraldDto RiftHerald { get; set; }
+        public required RiftHeraldDTO RiftHerald { get; set; }
 
         [JsonProperty("tower")]
-        public required TowerDto Tower { get; set; }
+        public required TowerDTO Tower { get; set; }
     }
 }

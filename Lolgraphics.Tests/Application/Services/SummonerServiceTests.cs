@@ -38,17 +38,17 @@ namespace Core.Tests.Application.Services
         {
             // Arrange
             var puuid = _fixture.Create<string>();
-            var summonerDto = _fixture.Create<SummonerDto>();
+            var summonerDTO = _fixture.Create<SummonerDTO>();
             _mockSummonerBffService.Setup(s => s.GetSummonerByPuuid(puuid))
-                .ReturnsAsync(summonerDto);
+                .ReturnsAsync(summonerDTO);
 
             // Act
             var result = await _summonerService.UpdateSummonerAsync(puuid);
 
             // Assert
-            _mockSummonerRepository.Verify(r => r.SaveSummonerAsync(summonerDto), Times.Once);
+            _mockSummonerRepository.Verify(r => r.SaveSummonerAsync(summonerDTO), Times.Once);
             _mockCache.Verify(c => c.SetCacheValueAsync($"summoner:{puuid}", It.IsAny<string>()), Times.Once);
-            Assert.Equal(summonerDto, result);
+            Assert.Equal(summonerDTO, result);
         }
 
         [Fact]
@@ -56,8 +56,8 @@ namespace Core.Tests.Application.Services
         {
             // Arrange
             var puuid = _fixture.Create<string>();
-            var summonerDto = _fixture.Create<SummonerDto>();
-            var summonerJson = JsonConvert.SerializeObject(summonerDto);
+            var summonerDTO = _fixture.Create<SummonerDTO>();
+            var summonerJson = JsonConvert.SerializeObject(summonerDTO);
             _mockCache.Setup(c => c.GetCacheValueAsync($"summoner:{puuid}"))
                 .ReturnsAsync(summonerJson);
 
@@ -65,8 +65,8 @@ namespace Core.Tests.Application.Services
             var result = await _summonerService.GetSummonerCachedAsync(puuid);
 
             // Assert
-            Assert.Equal(summonerDto.AccountId, result.AccountId);
-            Assert.Equal(summonerDto.Id, result.Id);
+            Assert.Equal(summonerDTO.AccountId, result.AccountId);
+            Assert.Equal(summonerDTO.Id, result.Id);
             // Assert other properties similarly...
         }
 

@@ -1,12 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Mongo.Models.InfoMatch
+namespace Mongo.Models
 {
     public class MetadataModel
     {
@@ -17,6 +11,6 @@ namespace Mongo.Models.InfoMatch
         public required string MatchId { get; set; }
 
         [BsonElement("participants")]
-        public  required List<string>  Participants { get; set; }
+        public required List<string> Participants { get; set; }
     }
 }

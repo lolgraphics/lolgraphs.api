@@ -1,13 +1,6 @@
-﻿using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Core.Application.DTOs
+﻿namespace Core.Application.DTOs
 {
-    public class SummonerDto
+    public class SummonerDTO
     {
         public required string Id { get; set; }
         public required string AccountId { get; set; }

@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using Core.Application.DTOs;
-using Core.Application.DTOs.MatchDtos;
-using Core.Application.DTOs.MatchDtos.InfoMatch;
+using Core.Application.DTOs.MatchDtos.infoMatchTimeLineDTO;
+using Core.Application.DTOs.MatchDTOs;
+using Core.Application.DTOs.MatchDTOs.InfoMatch;
+using Core.Application.DTOs.MatchDTOs.infoMatchTimeLineDTO;
+using Core.Application.DTOs.MatchDTOS;
 using Mongo.Models;
 using Mongo.Models.InfoMatch;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Mongo.Models.InfoMatchTimeLine;
 
 namespace Mongo.Mapper
 {
@@ -16,31 +15,42 @@ namespace Mongo.Mapper
     {
         public MappingProfile()
         {
-            CreateMap<SummonerDto, SummonerModel>().ReverseMap();
-            CreateMap<MatchDto, MatchModel>().ReverseMap();
+            // Summoners mappers
+            CreateMap<SummonerDTO, SummonerModel>().ReverseMap();
 
-            CreateMap<InfoMatchDto, InfoMatchModel>()
-           .ForMember(dest => dest.Metadata, opt => opt.MapFrom(src => src.Metadata))
-           .ForMember(dest => dest.Info, opt => opt.MapFrom(src => src.Info))
-           .ReverseMap();
+            // Info match time line mappers
+            CreateMap<InfoMatchTimeLineDTO, InfoMatchTimeLineModel>()
+                .ForMember(dest => dest.Metadata, opt => opt.MapFrom(src => src.Metadata))
+                .ForMember(dest => dest.Info, opt => opt.MapFrom(src => src.Info))
+                .ReverseMap();
 
-            // Nested types mapping
-            CreateMap<MetadataDto, MetadataModel>().ReverseMap();
-            CreateMap<InfoDto, InfoModel>().ReverseMap();
-            CreateMap<BaronDto, BaronModel>().ReverseMap();
-            CreateMap<ChallengesDto, ChallengesModel>().ReverseMap();
-            CreateMap<ChampionDto, ChampionModel>().ReverseMap();
-            CreateMap<InhibitorDto, InhibitorModel>().ReverseMap();
-            CreateMap<DragonDto, DragonModel>().ReverseMap();
-            CreateMap<HordeDto, HordeModel>().ReverseMap();
-            CreateMap<ObjectivesDto, ObjectivesModel>().ReverseMap();
-            CreateMap<ParticipantDto, ParticipantModel>().ReverseMap();
-            CreateMap<PerksDto, PerksModel>().ReverseMap();
-            CreateMap<SelectionDto, SelectionModel>().ReverseMap();
-            CreateMap<StatPerksDto, StatPerksModel>().ReverseMap();
-            CreateMap<StyleDto, StyleModel>().ReverseMap();
-            CreateMap<TeamDto, TeamModel>().ReverseMap();
-            CreateMap<TowerDto, TowerModel>().ReverseMap();
+            CreateMap<InfoTimeLineDTO, InfoTimeLineModel>().ReverseMap();
+
+            // Match mappers
+            CreateMap<MatchDTO, MatchModel>().ReverseMap();
+
+            // Info match mappers
+            CreateMap<InfoMatchDTO, InfoMatchModel>()
+                .ForMember(dest => dest.Metadata, opt => opt.MapFrom(src => src.Metadata))
+                .ForMember(dest => dest.Info, opt => opt.MapFrom(src => src.Info))
+                .ReverseMap();
+
+            CreateMap<MetadataDTO, MetadataModel>().ReverseMap();
+            CreateMap<InfoDTO, InfoModel>().ReverseMap();
+            CreateMap<BaronDTO, BaronModel>().ReverseMap();
+            CreateMap<ChallengesDTO, ChallengesModel>().ReverseMap();
+            CreateMap<ChampionDTO, ChampionModel>().ReverseMap();
+            CreateMap<InhibitorDTO, InhibitorModel>().ReverseMap();
+            CreateMap<DragonDTO, DragonModel>().ReverseMap();
+            CreateMap<HordeDTO, HordeModel>().ReverseMap();
+            CreateMap<ObjectivesDTO, ObjectivesModel>().ReverseMap();
+            CreateMap<ParticipantDTO, ParticipantModel>().ReverseMap();
+            CreateMap<PerksDTO, PerksModel>().ReverseMap();
+            CreateMap<SelectionDTO, SelectionModel>().ReverseMap();
+            CreateMap<StatPerksDTO, StatPerksModel>().ReverseMap();
+            CreateMap<StyleDTO, StyleModel>().ReverseMap();
+            CreateMap<TeamDTO, TeamModel>().ReverseMap();
+            CreateMap<TowerDTO, TowerModel>().ReverseMap();
         }
     }
 }

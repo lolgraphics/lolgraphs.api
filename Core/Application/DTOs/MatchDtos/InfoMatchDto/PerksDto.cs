@@ -1,18 +1,13 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Core.Application.DTOs.MatchDtos.InfoMatch
+namespace Core.Application.DTOs.MatchDTOs.InfoMatch
 {
-    public  class PerksDto
+    public  class PerksDTO
     {
         [JsonProperty("statPerks")]
-        public required StatPerksDto StatPerks { get; set; }
+        public required StatPerksDTO StatPerks { get; set; }
 
         [JsonProperty("styles")]
-        public required List<StyleDto> Styles { get; set; }
+        public required List<StyleDTO> Styles { get; set; }
     }
 }

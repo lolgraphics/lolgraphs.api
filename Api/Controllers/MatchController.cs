@@ -1,5 +1,5 @@
 ﻿
-using Core.Application.DTOs.ApiDtos;
+using Core.Application.DTOs.ApiDTOs;
 using Core.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

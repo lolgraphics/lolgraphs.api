@@ -1,15 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core.Application.DTOs.MatchDTOs.InfoMatch;
+using Newtonsoft.Json;
 
-namespace Core.Application.DTOs.MatchDtos.InfoMatch
+namespace Core.Application.DTOs.MatchDTOS
 {
-    public class ParticipantDto
+    public class ParticipantDTO
     {
         [JsonProperty("allInPings")]
         public long AllInPings { get; set; }
@@ -30,7 +24,7 @@ namespace Core.Application.DTOs.MatchDtos.InfoMatch
         public long BountyLevel { get; set; }
 
         [JsonProperty("challenges")]
-        public required ChallengesDto Challenges { get; set; }
+        public required ChallengesDTO Challenges { get; set; }
 
         [JsonProperty("champExperience")]
         public long ChampExperience { get; set; }
@@ -219,7 +213,7 @@ namespace Core.Application.DTOs.MatchDtos.InfoMatch
         public long PentaKills { get; set; }
 
         [JsonProperty("perks")]
-        public required PerksDto Perks { get; set; }
+        public required PerksDTO Perks { get; set; }
 
         [JsonProperty("physicalDamageDealt")]
         public long PhysicalDamageDealt { get; set; }

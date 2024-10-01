@@ -1,17 +1,10 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mongo.Models
 {
     public class SummonerModel
     {
-       
-
         [BsonElement("id")]
         public required string Id { get; set; }
 

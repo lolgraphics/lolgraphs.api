@@ -1,19 +1,19 @@
 using Bff;
 using Core.Application.Interfaces;
 using Bff.Services;
-using DotNetEnv;
 using Redis.Services;
 using Api.Middleware;
 using Core.Application.Services;
 using Core.Application.Interfaces.Repositories;
-using Mongo.Repositories;
 using StackExchange.Redis;
-using Mongo.Mapper;
 using Core.Application.Interfaces.Bff;
-using Mongo.Configuration;
-using Mongo;
 using Confluent.Kafka;
 using Kafka.Producer;
+using DotNetEnv;
+using Postgres.Mapper;
+using Postgres.Repositories;
+
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,10 +37,10 @@ var producerConfig = new ProducerConfig
 
 builder.Services.AddSingleton<IProducer<Null, string>>(new ProducerBuilder<Null, string>(producerConfig).Build());
 
+
 // Register services and dependencies
-builder.Services.AddSingleton<MongoDbContext>();
 builder.Services.ConfigureBffServices(builder.Configuration);
-builder.Services.ConfigureMongoDb(builder.Configuration);
+builder.Services.ConfigurePostgresDb(builder.Configuration);
 
 // Register Redis and Kafka services
 builder.Services.AddTransient<IRedisService, RedisService>();

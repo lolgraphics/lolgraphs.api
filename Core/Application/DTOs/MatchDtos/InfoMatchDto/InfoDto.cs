@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Core.Application.DTOs.MatchDtos.InfoMatchDto;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;

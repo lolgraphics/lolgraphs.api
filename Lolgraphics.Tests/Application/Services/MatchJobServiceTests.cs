@@ -51,7 +51,7 @@ namespace Core.Tests.Application.Services
             _mockMatchRepository.Verify(repo => repo.GetLastMatchPlayedAsync(puuid), Times.Once);
             _mockMatchBffService.Verify(bff => bff.GetMatchByPuuidAsync(puuid, It.IsAny<long>(), It.IsAny<long>()), Times.AtLeastOnce);
             _mockMatchBffService.Verify(bff => bff.GetMatchInfoByMatchIdAsync(It.IsAny<string>()), Times.AtLeastOnce);
-            _mockMatchRepository.Verify(repo => repo.SaveMatchAsync(It.IsAny<MatchDto>()), Times.AtLeastOnce);
+            _mockMatchRepository.Verify(repo => repo.SaveMatchIdAsync(It.IsAny<MatchDto>()), Times.AtLeastOnce);
             _mockMatchRepository.Verify(repo => repo.SaveInfoMatchAsync(It.IsAny<InfoMatchDto>()), Times.AtLeastOnce);
         }
 
@@ -80,7 +80,7 @@ namespace Core.Tests.Application.Services
             _mockMatchRepository.Verify(repo => repo.GetLastMatchPlayedAsync(puuid), Times.Once);
             _mockMatchBffService.Verify(bff => bff.GetMatchByPuuidAsync(puuid, It.IsAny<long>(), It.IsAny<long>()), Times.Once);
             _mockMatchBffService.Verify(bff => bff.GetMatchInfoByMatchIdAsync(It.IsAny<string>()), Times.AtLeastOnce);
-            _mockMatchRepository.Verify(repo => repo.SaveMatchAsync(It.IsAny<MatchDto>()), Times.AtLeastOnce);
+            _mockMatchRepository.Verify(repo => repo.SaveMatchIdAsync(It.IsAny<MatchDto>()), Times.AtLeastOnce);
             _mockMatchRepository.Verify(repo => repo.SaveInfoMatchAsync(It.IsAny<InfoMatchDto>()), Times.AtLeastOnce);
         }
 
@@ -105,7 +105,7 @@ namespace Core.Tests.Application.Services
 
             // Assert
             _mockMatchBffService.Verify(bff => bff.GetMatchByPuuidAsync(puuid, It.IsAny<long>(), It.IsAny<long>()), Times.AtLeast(4));
-            _mockMatchRepository.Verify(repo => repo.SaveMatchAsync(It.IsAny<MatchDto>()), Times.AtLeastOnce);
+            _mockMatchRepository.Verify(repo => repo.SaveMatchIdAsync(It.IsAny<MatchDto>()), Times.AtLeastOnce);
             _mockMatchRepository.Verify(repo => repo.SaveInfoMatchAsync(It.IsAny<InfoMatchDto>()), Times.AtLeastOnce);
         }
     }

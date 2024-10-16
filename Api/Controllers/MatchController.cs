@@ -12,7 +12,7 @@ namespace Api.Controllers
     {
         private readonly IKafkaProducer _messageQueueService = messageQueueService;
 
-        [HttpGet("RefreshMatches")]
+        [HttpGet("updateDataByPuuid")]
         public async Task<IActionResult> GetMatch(string puuid)
         {
             await _messageQueueService.EnqueueMessageAsync(puuid);

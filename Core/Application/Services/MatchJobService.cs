@@ -4,6 +4,7 @@ using Core.Application.Interfaces.Repositories;
 using Core.Application.Interfaces;
 using Core.Application.DTOs.MatchDtos.InfoMatch;
 using Core.Common.Enum;
+using Core.Application.DTOs.MatchDtos.infoMatchTimeLineDTO;
 
 namespace Core.Application.Services
 {
@@ -58,26 +59,39 @@ namespace Core.Application.Services
 
         private async Task ProcessMatchesAsync(string puuid, long startTime, long endTime)
         {
-            List<string> matchIds = await _matchBffService.GetMatchByPuuidAsync(puuid, startTime, endTime);
-            await GetMatchInfos(matchIds, puuid);
+
+            var matchIds = await _matchBffService.GetMatchByPuuidAsync(puuid, startTime, endTime);
+            await Task.Delay(1200);
+            await GetMatchAndTimeLineInfos(matchIds, puuid);
+            
+          
+
         }
 
-        private async Task GetMatchInfos(List<string> matchIds, string puuid)
+        private async Task GetMatchAndTimeLineInfos(List<string> matchIds, string puuid)
         {
             foreach (var matchId in matchIds.AsEnumerable().Reverse())
             {
                 var infoMatch = await _matchBffService.GetMatchInfoByMatchIdAsync(matchId);
-                await SaveMatchInfoAsync(infoMatch, puuid);
-                await Task.Delay(1200); // Consider removing or adjusting delay as needed
+                await Task.Delay(1200);
+                var infoMatchTimeLine = await _matchBffService.SaveMatchTimeLineInfoMatchAsync(matchId);
+
+                infoMatchTimeLine.Puuid = puuid;
+                infoMatchTimeLine.MatchId = matchId;
+
+                infoMatch.Puuid = puuid;
+                infoMatch.MatchId = matchId;
+
+                await SaveMatchDataAsync(infoMatch, infoMatchTimeLine, puuid);
             }
         }
 
-        private async Task SaveMatchInfoAsync(InfoMatchDto infoMatch, string puuid)
+        private async Task SaveMatchDataAsync(InfoMatchDto infoMatch, InfoMatchTimeLineDTO infoMatchTimeLine, string puuid)
         {
             long timestampInSeconds = infoMatch.Info.GameEndTimestamp / 1000;
             string formattedDate = FormatDateTimeByPlatformId(infoMatch.Info.PlatformId, timestampInSeconds);
 
-            await _matchRepository.SaveMatchAsync(new MatchDto(infoMatch.Metadata.MatchId, puuid, timestampInSeconds, formattedDate));
+            await _matchRepository.SaveMatchIdAsync(new MatchDto(infoMatch.Metadata.MatchId, puuid, timestampInSeconds, formattedDate));
             await _matchRepository.SaveInfoMatchAsync(infoMatch);
         }
 

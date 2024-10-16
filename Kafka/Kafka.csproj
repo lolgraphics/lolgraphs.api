@@ -35,7 +35,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Bff\Bff.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
-    <ProjectReference Include="..\Mongo\Mongo.csproj" />
+    <ProjectReference Include="..\Postgres\Postgres.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿using Core.Application.DTOs;
 using Core.Application.DTOs.MatchDtos;
 using Core.Application.DTOs.MatchDtos.InfoMatch;
+using Core.Application.DTOs.MatchDtos.infoMatchTimeLineDTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,12 @@ namespace Core.Application.Interfaces.Repositories
 {
     public interface IMatchRepository
     {
-        Task SaveMatchAsync(MatchDto matchDto);
+        Task SaveMatchIdAsync(MatchDto matchDto);
 
         Task<MatchDto> GetLastMatchPlayedAsync(string puuid);
 
         Task SaveInfoMatchAsync(InfoMatchDto infoMatchDto);
+
+        Task SaveMatchTimeLineInfoMatchAsync(InfoMatchTimeLineDTO infoMatchDTO);
     }
 }

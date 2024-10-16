@@ -15,13 +15,13 @@ namespace Api.Controllers
     {
         private readonly ISummonerService _summonerService = summonerService;
 
-        [HttpGet("ByPuuid")]
+        [HttpGet("byPuuid")]
         public async Task<IActionResult> GetSummonerByPuuid(string puuid)
         {
             var summonerInfos = await _summonerService.GetSummonerCachedAsync(puuid);
             return Ok(new ApiResponse(200, "Success", summonerInfos));
         }
-        [HttpGet("UpadateByPuuid")]
+        [HttpGet("upadateDateByPuuid")]
         public async Task<IActionResult> UpdateSummonerByPuuid(string puuid)
         {
             var summonerInfos = await _summonerService.UpdateSummonerAsync(puuid);

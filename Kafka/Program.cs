@@ -9,9 +9,9 @@ using KafkaAdapter;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Mongo;
-using Mongo.Mapper;
-using Mongo.Repositories;
+using Postgres.Mapper;
+using Postgres.Repositories;
+
 
 Console.WriteLine("Start consuming events ...");
 
@@ -34,13 +34,14 @@ var builder = Host.CreateDefaultBuilder()
         var configConsumer = new ConsumerConfig
         {
             BootstrapServers = "localhost:29092",
-            GroupId = "match-consumer-group"
+            GroupId = "match-consumer-group",
+            MaxPollIntervalMs = 60000000
         };
 
         var consumer = new ConsumerBuilder<Null, string>(configConsumer).Build();
 
-        // Register MongoDB services
-        services.ConfigureMongoDb(configuration);
+        // Register Postgress services
+        services.ConfigurePostgresDb(configuration);
         services.ConfigureBffServices(configuration);
 
         // Register Kafka Consumer and other services

@@ -363,16 +363,16 @@ namespace Core.Application.DTOs.MatchDtos.InfoMatch
         [JsonProperty("wardsGuarded")]
         public long WardsGuarded { get; set; }
 
-        [JsonProperty("highestCrowdControlScore", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("highestCrowdControlScore")]
         public long? HighestCrowdControlScore { get; set; }
 
-        [JsonProperty("firstTurretKilledTime", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("firstTurretKilledTime")]
         public double? FirstTurretKilledTime { get; set; }
 
-        [JsonProperty("highestChampionDamage", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("highestChampionDamage")]
         public long? HighestChampionDamage { get; set; }
 
-        [JsonProperty("shortestTimeToAceFromFirstTakedown", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("shortestTimeToAceFromFirstTakedown")]
         public double? ShortestTimeToAceFromFirstTakedown { get; set; }
     }
 }

@@ -74,7 +74,7 @@ namespace Core.Application.Services
             {
                 var infoMatch = await _matchBffService.GetMatchInfoByMatchIdAsync(matchId);
                 await Task.Delay(1200);
-                var infoMatchTimeLine = await _matchBffService.SaveMatchTimeLineInfoMatchAsync(matchId);
+                var infoMatchTimeLine = await _matchBffService.GetMatchTimeLineInfoMatchAsync(matchId);
 
                 infoMatchTimeLine.Puuid = puuid;
                 infoMatchTimeLine.MatchId = matchId;
@@ -93,6 +93,7 @@ namespace Core.Application.Services
 
             await _matchRepository.SaveMatchIdAsync(new MatchDto(infoMatch.Metadata.MatchId, puuid, timestampInSeconds, formattedDate));
             await _matchRepository.SaveInfoMatchAsync(infoMatch);
+            await _matchRepository.SaveMatchTimeLineInfoMatchAsync(infoMatchTimeLine);
         }
 
         private static string FormatDateTimeByPlatformId(string platformId, long timestampInSeconds)

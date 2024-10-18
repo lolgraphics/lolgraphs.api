@@ -44,7 +44,7 @@ namespace Bff.Services
                     return result;
                 }
             );
-        } public async Task<InfoMatchTimeLineDTO> SaveMatchTimeLineInfoMatchAsync(string matchId)
+        } public async Task<InfoMatchTimeLineDTO> GetMatchTimeLineInfoMatchAsync(string matchId)
         {
             var response = await _americasApi.GetAsync($"lol/match/v5/matches/{matchId}/timeline");
 

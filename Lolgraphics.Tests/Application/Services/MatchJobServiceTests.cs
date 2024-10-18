@@ -8,6 +8,7 @@ using Core.Application.Interfaces.Repositories;
 using Core.Application.Services;
 using Core.Common.Enum;
 using Moq;
+using Core.Application.DTOs.MatchDtos.infoMatchTimeLineDTO;
 
 namespace Core.Tests.Application.Services
 {
@@ -44,6 +45,9 @@ namespace Core.Tests.Application.Services
             _mockMatchBffService.Setup(bff => bff.GetMatchInfoByMatchIdAsync(It.IsAny<string>()))
                 .ReturnsAsync(_fixture.Create<InfoMatchDto>());
 
+            _mockMatchBffService.Setup(bff => bff.GetMatchTimeLineInfoMatchAsync(It.IsAny<string>()))
+                .ReturnsAsync(_fixture.Create<InfoMatchTimeLineDTO>());
+
             // Act
             await _matchJobService.ProcessMatchesAsync(puuid);
 
@@ -73,6 +77,9 @@ namespace Core.Tests.Application.Services
             _mockMatchBffService.Setup(bff => bff.GetMatchInfoByMatchIdAsync(It.IsAny<string>()))
                 .ReturnsAsync(_fixture.Create<InfoMatchDto>());
 
+            _mockMatchBffService.Setup(bff => bff.GetMatchTimeLineInfoMatchAsync(It.IsAny<string>()))
+               .ReturnsAsync(_fixture.Create<InfoMatchTimeLineDTO>());
+
             // Act
             await _matchJobService.ProcessMatchesAsync(puuid);
 
@@ -99,6 +106,9 @@ namespace Core.Tests.Application.Services
 
             _mockMatchBffService.Setup(bff => bff.GetMatchInfoByMatchIdAsync(It.IsAny<string>()))
                 .ReturnsAsync(_fixture.Create<InfoMatchDto>());
+
+            _mockMatchBffService.Setup(bff => bff.GetMatchTimeLineInfoMatchAsync(It.IsAny<string>()))
+                .ReturnsAsync(_fixture.Create<InfoMatchTimeLineDTO>());
 
             // Act
             await _matchJobService.ProcessMatchesInIntervalsAsync(puuid, startTime, endTime);

@@ -48,7 +48,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"lolgraphics_lolgraphs.api" /o:"lolgraphics" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="coverage.xml" /d:sonar.exclusions="**/Api/**, **/Postgres/**, **/DTOs/**, Kafka/Program.cs, Bff/BffStartup.cs"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"lolgraphics_lolgraphs.api" /o:"lolgraphics" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths="coverage.xml" /d:sonar.exclusions="**/Api/**, **/Postgres/**, **/DTOs/**, **/Kafka/**, Bff/BffStartup.cs"
           dotnet build --no-incremental
           dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"

@@ -13,6 +13,6 @@ namespace Core.Application.Interfaces.Bff
     {
         Task<List<string>> GetMatchByPuuidAsync(string puuid, long startTime, long endTime);
         Task<InfoMatchDto> GetMatchInfoByMatchIdAsync(string matchId);
-        Task<InfoMatchTimeLineDTO> SaveMatchTimeLineInfoMatchAsync(string matchId);
+        Task<InfoMatchTimeLineDTO> GetMatchTimeLineInfoMatchAsync(string matchId);
     }
 }

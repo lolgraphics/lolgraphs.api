@@ -5,6 +5,7 @@ using Core.Application.Interfaces.Bff;
 using Core.Application.DTOs.MatchDtos;
 using Core.Application.DTOs;
 using Core.Application.DTOs.MatchDtos.InfoMatch;
+using Core.Application.DTOs.MatchDtos.infoMatchTimeLineDTO;
 
 
 namespace Bff.Services
@@ -39,6 +40,20 @@ namespace Bff.Services
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<InfoMatchDto>(content) 
+                                ?? throw new MatchDataException("Failed to deserialize match info.", content);
+                    return result;
+                }
+            );
+        } public async Task<InfoMatchTimeLineDTO> GetMatchTimeLineInfoMatchAsync(string matchId)
+        {
+            var response = await _americasApi.GetAsync($"lol/match/v5/matches/{matchId}/timeline");
+
+            return await HttpHelper.HandleHttpResponseAsync(
+                response,
+                async () =>
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<InfoMatchTimeLineDTO>(content) 
                                 ?? throw new MatchDataException("Failed to deserialize match info.", content);
                     return result;
                 }

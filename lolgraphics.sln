@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bff", "Bff\Bff.csproj", "{CE2DDB10-A0F1-42F7-B8FB-29F3FE307B1B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mongo", "Mongo\Mongo.csproj", "{F4E0954F-A434-4BB5-8787-18C76EB21E7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Postgres", "Postgres\Postgres.csproj", "{F4E0954F-A434-4BB5-8787-18C76EB21E7D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redis", "Redis\Redis.csproj", "{0C8ABEA1-9D0E-4CA6-AE6B-288169B9B7AA}"
 EndProject
@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kafka", "Kafka\Kafka.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bff.Tests", "Bff.Tests\Bff.Tests.csproj", "{71A8EE5A-6A7F-49A1-9AEF-C2515E552FE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Redis.Tests", "Redis.Tests\Redis.Tests.csproj", "{F4D8F641-D058-4791-85CB-ABB95F22D01D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Redis.Tests", "Redis.Tests\Redis.Tests.csproj", "{F4D8F641-D058-4791-85CB-ABB95F22D01D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

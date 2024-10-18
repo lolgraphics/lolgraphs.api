@@ -6,6 +6,7 @@ using Bff.Services;
 using Core.Application.DTOs.MatchDtos.InfoMatch;
 using Newtonsoft.Json;
 using Moq.Protected;
+using Core.Application.DTOs.MatchDtos.infoMatchTimeLineDTO;
 
 namespace Bff.Tests.Services
 {
@@ -53,6 +54,23 @@ namespace Bff.Tests.Services
 
             // Act
             var result = await service.GetMatchInfoByMatchIdAsync(matchId);
+
+            // Assert
+            result.Should().BeEquivalentTo(matchInfo);  // Using FluentAssertions
+        } 
+        
+        [Fact]
+        public async Task GetMatchInfoByMatchIdAsync_ValidResponse_ReturnsMatchInfoTimeLine()
+        {
+            // Arrange
+            var matchInfo = _fixture.Create<InfoMatchTimeLineDTO>();
+            var httpClient = CreateHttpClientMock(JsonConvert.SerializeObject(matchInfo));
+            _httpClientFactoryMock.Setup(factory => factory.CreateClient("AmericasApi")).Returns(httpClient);
+            var service = new MatchBffService(_httpClientFactoryMock.Object);
+            string matchId = _fixture.Create<string>();
+
+            // Act
+            var result = await service.GetMatchTimeLineInfoMatchAsync(matchId);
 
             // Assert
             result.Should().BeEquivalentTo(matchInfo);  // Using FluentAssertions

@@ -1,4 +1,5 @@
 ﻿using Confluent.Kafka;
+using Core.Application.DTOs.MatchDtos.InfoMatchDto;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,15 @@ namespace Core.Application.DTOs.MatchDtos.InfoMatch
 {
     public class InfoMatchDto
     {
+        [JsonProperty("Puuid")]
+        public string Puuid { get; set; }
+
+
+        [JsonProperty("MatchId")]
+        public string MatchId { get; set; }
+
         [JsonProperty("metadata")]
-        public required MetadataDto Metadata { get; set; }
+        public required MetadataInfoMatchDTO Metadata { get; set; }
 
         [JsonProperty("info")]
         public required InfoDto Info { get; set; }

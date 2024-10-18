@@ -42,6 +42,7 @@ services:
     restart: always
     ports:
       - '6379:6379'
+
   dev:
     build:
       context: .
@@ -50,3 +51,18 @@ services:
       - .:/app
     working_dir: /app
     entrypoint: ["/bin/bash", "-c", "/app/install-hooks.sh && tail -f /dev/null"]
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: graphicdev
+      POSTGRES_PASSWORD: graphicdev
+      POSTGRES_DB: graphics
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

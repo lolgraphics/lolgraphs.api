@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Core.Application.DTOs.MatchDtos.InfoMatch;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,7 +8,8 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Application.DTOs.MatchDtos.InfoMatch
+
+namespace Core.Application.DTOs.MatchDtos.InfoMatchDto
 {
     public class ParticipantDto
     {

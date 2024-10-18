@@ -8,6 +8,7 @@ using Core.Application.Interfaces.Repositories;
 using Core.Application.Services;
 using Core.Common.Enum;
 using Moq;
+using Core.Application.DTOs.MatchDtos.infoMatchTimeLineDTO;
 
 namespace Core.Tests.Application.Services
 {
@@ -44,6 +45,9 @@ namespace Core.Tests.Application.Services
             _mockMatchBffService.Setup(bff => bff.GetMatchInfoByMatchIdAsync(It.IsAny<string>()))
                 .ReturnsAsync(_fixture.Create<InfoMatchDto>());
 
+            _mockMatchBffService.Setup(bff => bff.GetMatchTimeLineInfoMatchAsync(It.IsAny<string>()))
+                .ReturnsAsync(_fixture.Create<InfoMatchTimeLineDTO>());
+
             // Act
             await _matchJobService.ProcessMatchesAsync(puuid);
 
@@ -51,7 +55,7 @@ namespace Core.Tests.Application.Services
             _mockMatchRepository.Verify(repo => repo.GetLastMatchPlayedAsync(puuid), Times.Once);
             _mockMatchBffService.Verify(bff => bff.GetMatchByPuuidAsync(puuid, It.IsAny<long>(), It.IsAny<long>()), Times.AtLeastOnce);
             _mockMatchBffService.Verify(bff => bff.GetMatchInfoByMatchIdAsync(It.IsAny<string>()), Times.AtLeastOnce);
-            _mockMatchRepository.Verify(repo => repo.SaveMatchAsync(It.IsAny<MatchDto>()), Times.AtLeastOnce);
+            _mockMatchRepository.Verify(repo => repo.SaveMatchIdAsync(It.IsAny<MatchDto>()), Times.AtLeastOnce);
             _mockMatchRepository.Verify(repo => repo.SaveInfoMatchAsync(It.IsAny<InfoMatchDto>()), Times.AtLeastOnce);
         }
 
@@ -73,6 +77,9 @@ namespace Core.Tests.Application.Services
             _mockMatchBffService.Setup(bff => bff.GetMatchInfoByMatchIdAsync(It.IsAny<string>()))
                 .ReturnsAsync(_fixture.Create<InfoMatchDto>());
 
+            _mockMatchBffService.Setup(bff => bff.GetMatchTimeLineInfoMatchAsync(It.IsAny<string>()))
+               .ReturnsAsync(_fixture.Create<InfoMatchTimeLineDTO>());
+
             // Act
             await _matchJobService.ProcessMatchesAsync(puuid);
 
@@ -80,7 +87,7 @@ namespace Core.Tests.Application.Services
             _mockMatchRepository.Verify(repo => repo.GetLastMatchPlayedAsync(puuid), Times.Once);
             _mockMatchBffService.Verify(bff => bff.GetMatchByPuuidAsync(puuid, It.IsAny<long>(), It.IsAny<long>()), Times.Once);
             _mockMatchBffService.Verify(bff => bff.GetMatchInfoByMatchIdAsync(It.IsAny<string>()), Times.AtLeastOnce);
-            _mockMatchRepository.Verify(repo => repo.SaveMatchAsync(It.IsAny<MatchDto>()), Times.AtLeastOnce);
+            _mockMatchRepository.Verify(repo => repo.SaveMatchIdAsync(It.IsAny<MatchDto>()), Times.AtLeastOnce);
             _mockMatchRepository.Verify(repo => repo.SaveInfoMatchAsync(It.IsAny<InfoMatchDto>()), Times.AtLeastOnce);
         }
 
@@ -100,12 +107,15 @@ namespace Core.Tests.Application.Services
             _mockMatchBffService.Setup(bff => bff.GetMatchInfoByMatchIdAsync(It.IsAny<string>()))
                 .ReturnsAsync(_fixture.Create<InfoMatchDto>());
 
+            _mockMatchBffService.Setup(bff => bff.GetMatchTimeLineInfoMatchAsync(It.IsAny<string>()))
+                .ReturnsAsync(_fixture.Create<InfoMatchTimeLineDTO>());
+
             // Act
             await _matchJobService.ProcessMatchesInIntervalsAsync(puuid, startTime, endTime);
 
             // Assert
             _mockMatchBffService.Verify(bff => bff.GetMatchByPuuidAsync(puuid, It.IsAny<long>(), It.IsAny<long>()), Times.AtLeast(4));
-            _mockMatchRepository.Verify(repo => repo.SaveMatchAsync(It.IsAny<MatchDto>()), Times.AtLeastOnce);
+            _mockMatchRepository.Verify(repo => repo.SaveMatchIdAsync(It.IsAny<MatchDto>()), Times.AtLeastOnce);
             _mockMatchRepository.Verify(repo => repo.SaveInfoMatchAsync(It.IsAny<InfoMatchDto>()), Times.AtLeastOnce);
         }
     }
